@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SignInView: View {
     @State private var email: String = ""
+    @State private var password: String = ""
     var body: some View {
         VStack{
             Text("ساخت حساب")
@@ -30,9 +31,19 @@ struct SignInView: View {
                 Text("رمز عبور")
                     .customFont(.subheadline)
                     .foregroundStyle(.secondary)
-                SecureField("", text: $email)
+                SecureField("", text: $password)
                     .customTextField(image: Image("Icon Lock"))
             }
+            
+            Label("ساخت حساب", systemImage: "arrow.right")
+                .customFont(.headline)
+                .padding(15)
+                .frame(maxWidth: .infinity)
+                .background(Color(hex: "F77D8E"))
+                .foregroundStyle(.white)
+                .cornerRadius(20, corners: [.topRight, .bottomLeft, .bottomRight])
+                .cornerRadius(8, corners: [.topLeft])
+                .shadow(color: Color(hex: "F77D8E").opacity(0.5), radius: 20, x: 0, y: 10)
             
             //Divider()
             HStack {
@@ -67,6 +78,7 @@ struct SignInView: View {
         .overlay(RoundedRectangle(cornerRadius: 20, style: .continuous)
             .stroke(.linearGradient(colors:[.white.opacity(0.8), .white.opacity(0.1)], startPoint: .top, endPoint: .bottom))
         )
+        .padding()
     }
 }
 
