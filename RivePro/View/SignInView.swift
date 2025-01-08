@@ -6,10 +6,46 @@
 //
 
 import SwiftUI
+import RiveRuntime
 
 struct SignInView: View {
     @State private var email: String = ""
     @State private var password: String = ""
+    
+    @State var isLoading = false
+    @Binding var showSignIn: Bool
+    
+    let check = RiveViewModel(fileName: "check", stateMachineName: "State Machine 1")
+    let confetti = RiveViewModel(fileName: "confetti", stateMachineName: "State Machine 1")
+
+    
+    func logIn() {
+        isLoading = true
+        
+        if email != "" {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                check.triggerInput("Check")
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                isLoading = false
+                confetti.triggerInput("Trigger explosion")
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                withAnimation {
+                    showSignIn = false
+                }
+            }
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                check.triggerInput("Error")
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                isLoading = false
+            }
+        }
+    }
+
+    
     var body: some View {
         VStack{
             Text("ساخت حساب")
@@ -35,15 +71,19 @@ struct SignInView: View {
                     .customTextField(image: Image("Icon Lock"))
             }
             
-            Label("ساخت حساب", systemImage: "arrow.right")
-                .customFont(.headline)
-                .padding(15)
-                .frame(maxWidth: .infinity)
-                .background(Color(hex: "F77D8E"))
-                .foregroundStyle(.white)
-                .cornerRadius(20, corners: [.topRight, .bottomLeft, .bottomRight])
-                .cornerRadius(8, corners: [.topLeft])
-                .shadow(color: Color(hex: "F77D8E").opacity(0.5), radius: 20, x: 0, y: 10)
+            Button {
+                logIn()
+            } label : {
+                Label("ساخت حساب", systemImage: "arrow.right")
+                    .customFont(.headline)
+                    .padding(15)
+                    .frame(maxWidth: .infinity)
+                    .background(Color(hex: "F77D8E"))
+                    .foregroundStyle(.white)
+                    .cornerRadius(20, corners: [.topRight, .bottomLeft, .bottomRight])
+                    .cornerRadius(8, corners: [.topLeft])
+                    .shadow(color: Color(hex: "F77D8E").opacity(0.5), radius: 20, x: 0, y: 10)
+            }
             
             //Divider()
             HStack {
@@ -79,9 +119,22 @@ struct SignInView: View {
             .stroke(.linearGradient(colors:[.white.opacity(0.8), .white.opacity(0.1)], startPoint: .top, endPoint: .bottom))
         )
         .padding()
+        .overlay(
+            ZStack{
+                if isLoading {
+                    check.view()
+                        .frame(width: 100, height: 100)
+                    // موثع لود شدن جلو دسترسی به صفحه رو میگیره
+                        .allowsHitTesting(false)
+                }
+                confetti.view()
+                    .scaleEffect(3 )
+                    .allowsHitTesting(false )
+            }
+        )
     }
 }
 
 #Preview {
-    SignInView()
+    SignInView(showSignIn: .constant(true))
 }

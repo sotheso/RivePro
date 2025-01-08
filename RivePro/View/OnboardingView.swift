@@ -26,7 +26,7 @@ struct OnboardingView: View {
 //                .offset(y: showSignIn ? 50 : 0)
             
             if showSignIn {
-                SignInView()
+                SignInView(showSignIn: $showSignIn)
                     .transition(.move(edge: .top).combined(with: .opacity))
                     .overlay(
                         Button {
