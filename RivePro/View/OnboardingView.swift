@@ -18,12 +18,12 @@ struct OnboardingView: View {
             
             VStack {
                 Text("خیلی خوش آمدید، لطفا حساب باز کنید")
-                    .customFont(.title )
+                    .customFont(.largeTitle)
                     .frame(width: 260)
                     .multilineTextAlignment(.trailing)
                 
                 Text("برای دنبال کردن روزنامه‌ها و مجلات نیاز به حساب کاربری است. شما با ساخت حساب کاربری علاوه بر دنبال کردن محتوای دلخواه خود، میتوانید به آرشیو و دانلود محتوا هم دسترسی پیدا کنید.")
-                    .customFont(.body2)
+                    .customFont(.body)
                     .padding(.horizontal)
                     .multilineTextAlignment(.trailing)
                 

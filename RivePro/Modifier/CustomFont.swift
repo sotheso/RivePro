@@ -10,7 +10,7 @@ import SwiftUI
 
 // این کد اولیه است
 
-//struct CustomFontModif: ViewModifier {
+//struct CustomFont: ViewModifier {
 //    var textStyle: TextStyle
 //    func body(content: Content) -> some View {
 //            switch textStyle {
@@ -48,7 +48,7 @@ var name: String {
     case .body, .subheadline, .footnote, .caption:
         return "Peyda-Regular"
     case .headline, .subheadline2, .footnote2, .caption2:
-        return "Payda-SemiBold"
+        return "Peyda-SemiBold"
     }
 }
 
