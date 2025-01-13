@@ -17,18 +17,28 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            switch selectedTab {
-            case .chat:
-                Text("chat")
-            case .user:
-                Text("user")
-            case .search:
-                Text("search")
-            case .timer:
-                Text("timer")
-            case .bell:
-                Text("bell")
+// ناحیه امن برای همه نما ها
+            Group{
+                switch selectedTab {
+                case .chat:
+                    HomeView()
+                case .user:
+                    Text("user")
+                case .search:
+                    Text("search")
+                case .timer:
+                    Text("timer")
+                case .bell:
+                    Text("bell")
+                }
             }
+            .safeAreaInset(edge: .bottom) {
+                Color.clear.frame(height: 80)
+            }
+            .safeAreaInset(edge: .top) {
+                Color.clear.frame(height: 120)
+            }
+            .ignoresSafeArea()
             
             button.view()
                 .frame(width: 44, height: 44)

@@ -38,14 +38,13 @@
 
 import SwiftUI
 
-
 struct CustomFont: ViewModifier {
     var textStyle: TextStyle
     
     var name: String {
         switch textStyle {
         case .largeTitle, .title, .title2, .title3:
-            return "Peyda-Black"
+            return "Peyda-Bold"
         case .body, .subheadline, .footnote, .caption:
             return "Peyda-Regular"
         case .headline, .subheadline2, .footnote2, .caption2:
