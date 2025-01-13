@@ -78,7 +78,7 @@ struct SideMenu: View {
                 menuItems3[0].icon.view()
                     .frame(maxWidth: 32, maxHeight: 32)
                     .opacity(0.6)
-                    .onChange(of: isDark){ index in
+                    .onChange(of: isDark, initial: isDark) { oldValue, newValue in
                         menuItems3[0].icon.setInput("active", value: true)
                                                 
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {

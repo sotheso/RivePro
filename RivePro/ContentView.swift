@@ -12,8 +12,12 @@ struct ContentView: View {
     @AppStorage("selectedTab") var selectedTab: Tab = .chat
     
     @State var isOpen = false
+    @State var showUser = false
     let button = RiveViewModel(fileName: "menu_button",stateMachineName: "State Machine", autoPlay: false)
     
+    @Environment(\.colorScheme) var colorScheme
+    
+    @State private var preferredColorScheme: ColorScheme? = .light
     
     var body: some View {
         ZStack {
@@ -53,7 +57,23 @@ struct ContentView: View {
             .rotation3DEffect(.degrees(isOpen ? 30 : 0), axis: (x: 0, y: -1, z:0))
             .offset(x: isOpen ? 265 : 0)
             .scaleEffect(isOpen ? 0.9 : 1)
+            .scaleEffect(showUser ? 0.92: 1)
             .ignoresSafeArea()
+            
+            Image(systemName: "person")
+                .frame(width: 36 , height: 36)
+                .background(.white)
+                .mask(Circle())
+                .shadow(color: Color("Shadow").opacity(0.2), radius: 5, x: 0, y: 5)
+                .onTapGesture {
+                    withAnimation(.spring()) {
+                        showUser = true
+                    }
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                .padding()
+                .offset(y: 4)
+                .offset(x: isOpen ? 100 : 0)
             
             button.view()
                 .frame(width: 44, height: 44)
@@ -70,9 +90,41 @@ struct ContentView: View {
                         isOpen.toggle()
                     }
                 }
+// navigation برای وقتی که نمای همبرگری بغل رو باز میکنی
+                .onChange(of: isOpen, initial: isOpen) { oldValue, newValue in
+                    if newValue {
+                        preferredColorScheme = .dark
+                    } else {
+                        preferredColorScheme = .light
+                    }
+                }
             
             TabBar()
                 .offset(y: isOpen ? 300 : 0)
+                .offset(y: showUser ? 200 : 0)
+
+// ایده حاله از پایین ولی واسه ساید بار
+// ولی باگ داره برای وقتی که ساید منو رو باز میکنی
+//                .offset(y: -40)
+//                .background(
+//                    LinearGradient(colors: [Color("Background").opacity(0), Color("Background")], startPoint: .top, endPoint: .bottom)
+//                        .frame(height: 150)
+//                        .frame(maxHeight: .infinity, alignment: .bottom)
+//                        .allowsTightening(false)
+//                )
+//                .ignoresSafeArea()
+            
+// دکمه کاربر -> showUser
+            if showUser {
+                OnboardingView(showUser: $showUser )
+                    .background(.white)
+                    .mask(RoundedRectangle(cornerRadius: 30, style: .continuous))
+                    .shadow(color: .black.opacity(0.5), radius: 40, x: 0, y:40)
+                    .ignoresSafeArea(.all, edges: .top)
+                    .transition(.move(edge: .top))
+                    .offset(y: isOpen ? -10 : 0)
+                    .zIndex(1)
+            }
             
         }
     }

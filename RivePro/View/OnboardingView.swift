@@ -12,7 +12,7 @@ struct OnboardingView: View {
     let button = RiveViewModel(fileName: "button")
     
     @State private var showSignIn = false
-    
+    @Binding var showUser: Bool
     
     var body: some View {
         ZStack {
@@ -23,7 +23,7 @@ struct OnboardingView: View {
                 .ignoresSafeArea()
             
             content()
-//                .offset(y: showSignIn ? 50 : 0)
+            //                .offset(y: showSignIn ? 50 : 0)
             
             if showSignIn {
                 SignInView(showSignIn: $showSignIn)
@@ -43,8 +43,23 @@ struct OnboardingView: View {
                         }
                             .frame(maxHeight: .infinity, alignment: .bottom)
                     )
-                    .zIndex(1)
+            }
+            // دکمه بستن
+            Button {
+                withAnimation {
+                    showUser = false
                 }
+            } label: {
+                Image(systemName: "xmark")
+                    .frame(width: 36, height: 36)
+                    .background(.black)
+                    .foregroundColor(.white)
+                    .mask(Circle())
+                    .shadow(color: .black.opacity(0.3), radius: 10, x: 0, y: 10)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+            .padding(20)
+            .offset(y: showSignIn ? -200 : 80)
         }
     }
     
@@ -61,7 +76,6 @@ struct OnboardingView: View {
                 .padding(.horizontal)
                 .multilineTextAlignment(.trailing)
             
-            Spacer()
             Spacer()
 
             
@@ -104,5 +118,5 @@ struct OnboardingView: View {
 }
 
 #Preview {
-    OnboardingView()
+    OnboardingView(showUser: .constant(true))
 }
