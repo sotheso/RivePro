@@ -17,6 +17,15 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
+// نمای پشت برای Side Menu
+            Color("Background 2").ignoresSafeArea()
+            
+            SideMenu()
+                .opacity(isOpen ? 1 : 0)
+                .offset(x: isOpen ? 0 : -300)
+// حالت افکت طور چرخشی
+                .rotation3DEffect(.degrees(isOpen ? 0 : 30), axis: (x: 0, y: 1, z: 0))
+            
 // ناحیه امن برای همه نما ها
             Group{
                 switch selectedTab {
@@ -38,6 +47,12 @@ struct ContentView: View {
             .safeAreaInset(edge: .top) {
                 Color.clear.frame(height: 120)
             }
+// ماسک صفجه Content View
+            .mask(RoundedRectangle(cornerRadius: 30, style: .continuous))
+// فکت چرخش به سمت SideMenu
+            .rotation3DEffect(.degrees(isOpen ? 30 : 0), axis: (x: 0, y: -1, z:0))
+            .offset(x: isOpen ? 265 : 0)
+            .scaleEffect(isOpen ? 0.9 : 1)
             .ignoresSafeArea()
             
             button.view()
@@ -46,12 +61,19 @@ struct ContentView: View {
                 .shadow(color: Color("Shadow").opacity(0.2), radius: 5, x:0, y: 5)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 .padding()
+                .offset(x: isOpen ? 216 : 0)
                 .onTapGesture {
                     button.setInput("isOpen", value: isOpen)
-                    isOpen.toggle()
+// زمان واکنش با انیمیشن
+// حالت جامپی
+                    withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
+                        isOpen.toggle()
+                    }
                 }
             
             TabBar()
+                .offset(y: isOpen ? 300 : 0)
+            
         }
     }
 }

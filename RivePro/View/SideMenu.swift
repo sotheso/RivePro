@@ -32,7 +32,8 @@ struct SideMenu: View {
                 Spacer()
             }
             .padding()
-            
+            Spacer()
+        
             Text("BROWSE")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 24)
@@ -71,7 +72,7 @@ struct SideMenu: View {
                 }
             }
             .padding(8)
-
+            Spacer()
 /// -----------------------
             HStack(spacing: 14){
                 menuItems3[0].icon.view()
@@ -92,6 +93,7 @@ struct SideMenu: View {
                 
             }
             .padding(12)
+            Spacer() 
 
         }
         .foregroundColor(.white)
